@@ -6,10 +6,22 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const mongodb = require("./database/mongodb");
 
+const http = require('http');
+const WebSocket = require('websocket').server
+
 const app = express();
 const config = require("./config");
 
 dotenv.config();
+
+// Créer le serveur HTTP
+const server = http.createServer(app);
+
+// Configuration du serveur WebSocket
+const wsServer = new WebSocket({
+  httpServer: server,
+  autoAcceptConnections: false,
+});
 
 // Middleware
 app.use(cors());

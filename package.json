@@ -2,7 +2,7 @@
   "name": "spec-ops-manager-backend",
   "version": "1.0.0",
   "description": "Système de Gestion des Opérations Spéciales",
-  "main": "config.js",
+  "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
     "server": "node app.js"
