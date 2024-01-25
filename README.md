@@ -25,12 +25,11 @@ SpecOpsManager est un système de gestion des opérations spéciales en ligne, c
 
 1. Clonez ce dépôt : `git clone <URL_DU_REPO>`
 2. Installez les dépendances : `npm install`
-3. Créez un fichier `.env` pour configurer les variables d'environnement (consultez `.env.example` pour référence).
 
 ## Utilisation
 
 1. Lancez l'application : `npm start`
-2. Accédez à l'application dans votre navigateur : `http://localhost:3000`
+2. Accédez à l'application dans votre navigateur : `http://localhost:8220`
 
 ## Structure du Projet
 
@@ -48,10 +47,6 @@ specopsmanager/
 |-- .gitignore
 |-- package.json
 |-- README.md
-
-## Licence
-
-Ce projet est sous licence [MIT](LICENSE).
 
 ---
 **© 2023 SpecOpsManager. Tous droits réservés.**

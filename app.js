@@ -49,5 +49,5 @@ app.use((err, req, res, next) => {
 // Routes app
 
 app.listen(config.port, () =>
-  console.log(`Server listening on port ${config.port}🕺😊☄️☀️`.bgBlue)
+  console.log(`Server listening on port ${config.port}🕺😊☄️☀️`.bgCyan)
 );
