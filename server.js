@@ -1,5 +1,9 @@
 const colors = require("colors");
 const dotenv = require("dotenv");
+const http = require("http");
+const {
+  attachWebSocketServer,
+} = require("./controllers/realTimeCoordinationController");
 dotenv.config();
 
 const expressConfig = require("./configurations/express");
@@ -7,19 +11,21 @@ const websocketConfig = require("./configurations/websocket");
 
 // Configurer le serveur Express
 const app = expressConfig();
+const server = http.createServer(app);
+
+// Configurer et attacher le serveur WebSocket au serveur HTTP Express
+const wssWebSocketConfig = websocketConfig(server);
+attachWebSocketServer(server);
 
 const config = require("./config");
 
 // Démarrer le serveur HTTP Express
-const server = app.listen(config.port, () => {
+server.listen(config.port, () => {
   console.log(
     `Serveur Express en cours d'exécution sur le port ${config.port}🕺😊☄️☀️`
       .bgCyan.bold
   );
 });
-
-// Configurer et attacher le serveur WebSocket au serveur HTTP Express
-const wss = websocketConfig(server);
 
 // Fonction fictive pour envoyer une notification
 const sendNotification = (subject, message) => {
@@ -46,7 +52,7 @@ const handleWebSocketError = (error) => {
 };
 
 // Attachez la fonction à l'événement 'error' du serveur WebSocket
-wss.on("error", handleWebSocketError);
+wssWebSocketConfig.on("error", handleWebSocketError);
 
 // Fermeture du serveur
 process.on("SIGINT", () => {

@@ -1,7 +1,8 @@
+// websocketConfig.js
 const WebSocket = require("ws");
 
 module.exports = function (server) {
-  const wss = new WebSocket.Server({ server });
+  const wss = new WebSocket.Server({ noServer: true });
 
   wss.on("connection", (ws) => {
     console.log("Nouvelle connexion WebSocket");
