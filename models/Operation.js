@@ -23,8 +23,12 @@ const operationSchema = new mongoose.Schema({
   ],
   status: {
     type: String,
-    enum: ["Planned", "InProgress", "Completed"],
+    enum: ["Planned", "In Progress", "Paused", "Completed"],
     default: "Planned",
+  },
+  progress: {
+    type: Number,
+    default: 0,
   },
   startTime: {
     type: Date,

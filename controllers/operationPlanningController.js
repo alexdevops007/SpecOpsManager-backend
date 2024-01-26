@@ -28,7 +28,7 @@ const getOperationById = async (req, res) => {
 const createOperation = async (req, res) => {
   const operation = new Operation({
     name: req.body.name,
-    description: req.body.description,
+    objectives: req.body.objectives,
     teams: req.body.teams,
     startTime: req.body.startTime,
     endTime: req.body.endTime,
