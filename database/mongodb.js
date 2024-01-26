@@ -5,7 +5,7 @@ const config = require("../config");
 mongoose.connect(config.database.url);
 
 mongoose.connection.on("connected", () => {
-  console.log(`Connecté à la base de données`.bgYellow.bold);
+  console.log(`Connecté à la base de données`.bgGreen.bold);
 });
 
 mongoose.connection.on("error", (err) => {

@@ -31,6 +31,7 @@ const createResource = async (req, res) => {
     description: req.body.description,
     quantity: req.body.quantity,
     status: req.body.status || "Available",
+    assignedTo: req.body.assignedTo,
   });
 
   try {
@@ -44,15 +45,20 @@ const createResource = async (req, res) => {
 // Mettre à jour une ressource
 const updateResource = async (req, res) => {
   try {
-    const resource = await Resource.findById(req.params.id);
+    const updatedResource = await Resource.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          name: req.body.name,
+          description: req.body.description,
+          quantity: req.body.quantity,
+          status: req.body.status,
+        },
+      },
+      { new: true }
+    );
 
-    if (resource) {
-      resource.name = req.body.name || resource.name;
-      resource.description = req.body.description || resource.description;
-      resource.quantity = req.body.quantity || resource.quantity;
-      resource.status = req.body.status || resource.status;
-
-      const updatedResource = await resource.save();
+    if (updatedResource) {
       res.json(updatedResource);
     } else {
       res.status(404).json({ message: "Ressource non trouvée" });
@@ -65,10 +71,9 @@ const updateResource = async (req, res) => {
 // Supprimer une ressource
 const deleteResource = async (req, res) => {
   try {
-    const resource = await Resource.findById(req.params.id);
+    const deletedResource = await Resource.findByIdAndDelete(req.params.id);
 
-    if (resource) {
-      await resource.remove();
+    if (deletedResource) {
       res.json({ message: "Ressource supprimée" });
     } else {
       res.status(404).json({ message: "Ressource non trouvée" });

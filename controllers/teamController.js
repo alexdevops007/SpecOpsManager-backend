@@ -44,15 +44,20 @@ const createTeam = async (req, res) => {
 // Mettre à jour une équipe
 const updateTeam = async (req, res) => {
   try {
-    const team = await Team.findById(req.params.id);
+    const updatedTeam = await Team.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          name: req.body.name,
+          description: req.body.description,
+          members: req.body.members,
+          leader: req.body.leader,
+        },
+      },
+      { new: true }
+    );
 
-    if (team) {
-      team.name = req.body.name || team.name;
-      team.description = req.body.description || team.description;
-      team.members = req.body.members || team.members;
-      team.leader = req.body.leader || team.leader;
-
-      const updatedTeam = await team.save();
+    if (updatedTeam) {
       res.json(updatedTeam);
     } else {
       res.status(404).json({ message: "Équipe non trouvée" });
@@ -65,10 +70,9 @@ const updateTeam = async (req, res) => {
 // Supprimer une équipe
 const deleteTeam = async (req, res) => {
   try {
-    const team = await Team.findById(req.params.id);
+    const deletedTeam = await Team.findByIdAndDelete(req.params.id);
 
-    if (team) {
-      await team.remove();
+    if (deletedTeam) {
       res.json({ message: "Équipe supprimée" });
     } else {
       res.status(404).json({ message: "Équipe non trouvée" });

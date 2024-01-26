@@ -45,15 +45,20 @@ const createUser = async (req, res) => {
 // Mettre à jour un utilisateur
 const updateUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          username: req.body.username,
+          email: req.body.email,
+          password: req.body.password,
+          role: req.body.role || "Operator",
+        },
+      },
+      { new: true }
+    );
 
-    if (user) {
-      user.username = req.body.username || user.username;
-      user.email = req.body.email || user.email;
-      user.password = req.body.password || user.password;
-      user.role = req.body.role || user.role;
-
-      const updatedUser = await user.save();
+    if (updatedUser) {
       res.json(updatedUser);
     } else {
       res.status(404).json({ message: "Utilisateur non trouvé" });
@@ -66,10 +71,9 @@ const updateUser = async (req, res) => {
 // Supprimer un utilisateur
 const deleteUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
 
-    if (user) {
-      await user.remove();
+    if (deletedUser) {
       res.json({ message: "Utilisateur supprimé" });
     } else {
       res.status(404).json({ message: "Utilisateur non trouvé" });
@@ -87,7 +91,9 @@ const authenticateUser = async (req, res) => {
     const user = await User.findOne({ username });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      res.status(401).json({ message: "Nom d'utilisateur ou mot de passe incorrect" });
+      res
+        .status(401)
+        .json({ message: "Nom d'utilisateur ou mot de passe incorrect" });
     } else {
       res.json({ message: "Authentification réussie", user });
     }
@@ -120,8 +126,8 @@ const getUserTeams = async (req, res) => {
   const userId = req.params.id;
 
   try {
-    const user = await User.findById(userId).populate('teams');
-    
+    const user = await User.findById(userId).populate("teams");
+
     if (user) {
       res.json(user.teams);
     } else {

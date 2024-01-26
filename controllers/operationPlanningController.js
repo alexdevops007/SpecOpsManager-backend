@@ -45,16 +45,21 @@ const createOperation = async (req, res) => {
 // Mettre à jour une opération planifiée
 const updateOperation = async (req, res) => {
   try {
-    const operation = await Operation.findById(req.params.id);
+    const updatedOperation = await Operation.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          name: req.body.name,
+          description: req.body.description,
+          teams: req.body.teams,
+          startTime: req.body.startTime,
+          endTime: req.body.endTime,
+        },
+      },
+      { new: true }
+    );
 
-    if (operation) {
-      operation.name = req.body.name || operation.name;
-      operation.description = req.body.description || operation.description;
-      operation.teams = req.body.teams || operation.teams;
-      operation.startTime = req.body.startTime || operation.startTime;
-      operation.endTime = req.body.endTime || operation.endTime;
-
-      const updatedOperation = await operation.save();
+    if (updatedOperation) {
       res.json(updatedOperation);
     } else {
       res.status(404).json({ message: "Opération non trouvée" });
@@ -67,10 +72,9 @@ const updateOperation = async (req, res) => {
 // Supprimer une opération planifiée
 const deleteOperation = async (req, res) => {
   try {
-    const operation = await Operation.findById(req.params.id);
+    const deletedOperation = await Operation.findByIdAndDelete(req.params.id);
 
-    if (operation) {
-      await operation.remove();
+    if (deletedOperation) {
       res.json({ message: "Opération supprimée" });
     } else {
       res.status(404).json({ message: "Opération non trouvée" });

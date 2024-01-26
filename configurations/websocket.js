@@ -1,25 +1,24 @@
-const socketIO = require("socket.io");
+const WebSocket = require("ws");
 
-module.exports = (server) => {
-  // Crée une instance de Socket.io associée au serveur HTTP
-  const io = socketIO(server);
+module.exports = function (server) {
+  const wss = new WebSocket.Server({ server });
 
-  // Gestionnaire d'événements pour les nouvelles connexions
-  io.on("connection", (socket) => {
-    console.log("A user connected");
+  wss.on("connection", (ws) => {
+    console.log("Nouvelle connexion WebSocket");
 
-    // Ecoute les messages de chat
-    socket.on("chat message", (msg) => {
-      // Émet le message à tous les clients connectés
-      io.emit("chat message", msg);
+    // Écoutez les messages du client WebSocket
+    ws.on("message", (message) => {
+      console.log(`Reçu: ${message}`);
     });
 
-    // Gestionnaire d'événements pour les déconnexions
-    socket.on("disconnect", () => {
-      console.log("User disconnected");
+    // Envoyez un message au client WebSocket
+    ws.send("Bienvenue sur le serveur WebSocket");
+
+    // Gérez la fermeture de la connexion WebSocket
+    ws.on("close", () => {
+      console.log("Connexion WebSocket fermée");
     });
   });
 
-  // Retourne l'instance de Socket.io pour une utilisation éventuelle
-  return io;
+  return wss;
 };
