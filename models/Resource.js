@@ -21,10 +21,6 @@ const resourceSchema = new mongoose.Schema({
     enum: ["Available", "Assigned", "Unavailable"],
     default: "Available",
   },
-  assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Team",
-  },
   createdAt: {
     type: Date,
     default: Date.now,
