@@ -31,7 +31,6 @@ const createResource = async (req, res) => {
     description: req.body.description,
     quantity: req.body.quantity,
     status: req.body.status || "Available",
-    assignedTo: req.body.assignedTo,
   });
 
   try {

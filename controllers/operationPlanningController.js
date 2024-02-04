@@ -30,6 +30,9 @@ const createOperation = async (req, res) => {
     name: req.body.name,
     objectives: req.body.objectives,
     teams: req.body.teams,
+    resources: req.body.resouces,
+    status: req.body.status || "Planned",
+    progress: req.body.progress,
     startTime: req.body.startTime,
     endTime: req.body.endTime,
   });
