@@ -37,6 +37,9 @@ router.get(
   operationTrackingController.getAllOngoingOperations
 );
 
+// Obtenir toutes les opérations en pause
+router.get("/operations/pause", operationTrackingController.pauseOperations);
+
 // Mettre en pause une opération en cours
 router.put("/operations/:id/pause", operationTrackingController.pauseOperation);
 
