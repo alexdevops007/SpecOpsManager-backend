@@ -53,8 +53,11 @@ const updateOperation = async (req, res) => {
       {
         $set: {
           name: req.body.name,
-          description: req.body.description,
+          objectives: req.body.objectives,
           teams: req.body.teams,
+          resources: req.body.resources,
+          status: req.body.status,
+          progress: req.body.progress,
           startTime: req.body.startTime,
           endTime: req.body.endTime,
         },
