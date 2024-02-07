@@ -101,6 +101,16 @@ const getAllOngoingOperations = async (req, res) => {
   }
 };
 
+// Obtenir toutes les opérations en pause
+const pauseOperations = async (req, res) => {
+  try {
+    const pauseOperations = await Operation.find({ status: "Paused" });
+    res.json(pauseOperations);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Mettre en pause une opération en cours
 const pauseOperation = async (req, res) => {
   try {
@@ -148,4 +158,5 @@ module.exports = {
   getAllOngoingOperations,
   pauseOperation,
   resumeOperation,
+  pauseOperations,
 };
